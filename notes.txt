@@ -1,0 +1,47 @@
+LOGFILE:
+
+dir:		/grid-LHC10e
+processed:	130840 130834
+type:		Tracks only
+
+dir:		/phos-LHC10e
+processed:	130840 130834
+type:		pi0s only
+
+dir:		/AddTaskTest
+processed:	128503 128504 128853 128855
+type:		pi0s only
+
+dir:		/Testdir
+processed:	Local only
+type:		both
+
+dir:		/phos-LHC10h
+processed:	138275 138534
+type:		pi0s only
+
+
+COMMANDS:
+
+run local:
+	  aliroot -b -q -l ../run-single-task.C'("local", "AliAOD.root", "AddTaskThreePartPi0.C", "correlation3p_LHC10e")'
+
+run test:
+	  aliroot -b -q -l ../run-single-task.C'("test", "128503 128504 128853 128855", "AddTaskThreePartPi0.C", "correlation3p_LHC10e")'
+
+run full:
+	  aliroot -b -q -l ../run-single-task.C'("full", "128503 128504 128853 128855", "AddTaskThreePartPi0.C", "correlation3p_LHC10e")'
+
+run merge:
+	  aliroot -b -q -l ../run-single-task.C'("merge", "gridwork/2014-05-05_08-31", "AddTaskThreePartPi0.C", "correlation3p_LHC10e", "000 001 002 003")'
+
+run collect:
+	  aliroot -b -q -l ../run-single-task.C'("merge", "gridwork/2014-05-05_08-31", "AddTaskThreePartPi0.C", "correlation3p_LHC10e", "000 001 002 003")'
+	  
+	  
+To draw:
+	  aliroot  -l ../run-single-task.C'("compile", "AliAnalysisTaskCorrelation3p.cxx")' AnalysisResults.root
+	  #in Aliroot:
+	  TDirectory * dir = _file0->GetDirectory("ThreePartpi0sPbPb",true);
+	  dir->cd();
+	  ThreePartpi0sPbPbCoutput1->Draw()
