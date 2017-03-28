@@ -166,9 +166,9 @@ Double_t myfunc(Double_t* x,Double_t* par){
   else return par[0]+limit*par[1]+limit*limit*par[2]+limit*limit*limit*par[3]+par[4]*limit*limit*limit*limit;
 }
 
-void CollectCentBins(const char* runnr){
-  TString basedir=TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/");
-  TString ghidir = TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC12a17ghi");
+void CollectCentBins(const char* runnr,TString basedir){
+  TString ghidir = basedir + TString("LHC12a17ghi/");
+  cout << basedir.Data()<< " " << ghidir << endl;
   TSystemDirectory * runsdir = new TSystemDirectory("LHC12a17ghi",ghidir.Data());
   TList * runs = runsdir->GetListOfFiles();
   Int_t nphi = 1;
@@ -237,7 +237,7 @@ void CollectCentBins(const char* runnr){
 	TFile * effh = TFile::Open(LocFileh.Data(),"READ");
 	TFile * effi = TFile::Open(LocFilei.Data(),"READ");
 	if(effg&&effh&&effi){
-	  cout << runs->At(i)->GetName() << endl;
+	  cout << LocFileg.Data()<<" + "<<  LocFileh.Data()<<" + "<<  LocFilei.Data()<<" in run "<<   runs->At(i)->GetName() << endl;
 	  TString Locfile = ghidir + TString("/") + TString(runs->At(i)->GetName()) + TString("/eff.root");
 	  TFile * effr = TFile::Open(Locfile.Data(),"RECREATE");
 	  TDirectory * rhists = effr->mkdir("hists");
@@ -408,8 +408,7 @@ void CollectCentBins(const char* runnr){
   delete runsdir;
 }
 
-void CollectRuns(Double_t ptborder=3.0,Double_t MaxWeight=5.0){
-  TString basedir = TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC12a17ghi");
+void CollectRuns(TString basedir,Double_t ptborder=3.0,Double_t MaxWeight=5.0){
   TString globfile = basedir + TString("/eff.root");
   TFile * effglob = TFile::Open(globfile.Data(),"RECREATE");
   TDirectory* ghists = effglob->mkdir("hists");
@@ -500,7 +499,6 @@ void CollectRuns(Double_t ptborder=3.0,Double_t MaxWeight=5.0){
   TH1D * errg = new TH1D("errg","Errors in the 3d histograms",1000,0.0,20.0);
   for(int i =0;i<nruns;i++){
     int runnr = runnumbersP11h[106-i];
-    cout << runnr <<endl;
     int binnumber = -1;
     for(int k =0;k<=nruns;k++){
       TString binlable = TString(EffperRun->GetXaxis()->GetBinLabel(k));
@@ -508,6 +506,7 @@ void CollectRuns(Double_t ptborder=3.0,Double_t MaxWeight=5.0){
     }
     
     TString Locfile = basedir + TString("/") + TString(Form("%i",runnr)) + TString("/eff.root");
+    cout << Locfile.Data()<< " "  << runnr <<endl;
     TFile * effr = TFile::Open(Locfile.Data(),"READ");
     TH1D  * efforrun = (TH1D*)(effr->Get("err"));
     errg->Add(efforrun);
@@ -729,7 +728,7 @@ void CollectRuns(Double_t ptborder=3.0,Double_t MaxWeight=5.0){
   canvas->Clear();
   
   errnow->Write();
-  TString  outfile = TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/efficiencies") + TString("/LHC11hWeight.root");
+  TString  outfile = basedir + TString("LHC11hWeight.root");
   TFile* outfile2 = TFile::Open(outfile.Data(),"RECREATE");
   histlptmc->Write("hnWeight");
   histhptmc->Write("hnWeight_highpt");

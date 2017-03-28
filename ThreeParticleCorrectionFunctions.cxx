@@ -4240,9 +4240,16 @@ TObjArray * PadArray(TCanvas * canvas, int ntrig, int nass,TObjArray* trignames,
   if(ntrig!=trignames->GetEntries()||nass!=assnames->GetEntries()){ cout << "wrong dimensions on the names"<<endl; return 0x0;}
   TObjArray * arrayofpads = new TObjArray();
   
-  TPaveLabel* overtitle = new TPaveLabel(0.15,0.95,0.9,0.99,title,"nb");
-  overtitle->Draw();
-  TPaveLabel* asstitle = new TPaveLabel(0.0,0.8,0.15,0.99,"p_T^{ass}:","nb");
+//   TPaveLabel* overtitle = new TPaveLabel(0.15,0.95,0.9,0.99,title,"nb");
+//   overtitle->Draw();
+  double textsize = 20;
+  TPaveLabel* Trigtitle = new TPaveLabel(0.0,0.9,0.9,1.0,"p_{T}^{trigger}:","nb");
+  Trigtitle->SetTextFont(63);
+  Trigtitle->SetTextSize(textsize);
+  Trigtitle->Draw();
+  TPaveLabel* asstitle = new TPaveLabel(0.0,0.85,0.15,1.0,"p_{T}^{associated}:","nb");
+  asstitle->SetTextFont(63);
+  asstitle->SetTextSize(textsize);
   asstitle->Draw();
   
   Double_t xdiv = 0.75/ntrig;
@@ -4255,8 +4262,10 @@ TObjArray * PadArray(TCanvas * canvas, int ntrig, int nass,TObjArray* trignames,
     Double_t xmin = 0.15+(nx-1)*xdiv;
     Double_t xmax = xmin + xdiv;
     Double_t ymin = 0.85;
-    Double_t ymax = 0.95;
+    Double_t ymax = 0.9;
     TPaveLabel* Triglable = new TPaveLabel(xmin,ymin,xmax,ymax,trignames->At(nx-1)->GetName(),"nb");
+    Triglable->SetTextFont(63);
+    Triglable->SetTextSize(textsize-6);
     Triglable->Draw();
   }
   //so the lables for associated:
@@ -4269,9 +4278,9 @@ TObjArray * PadArray(TCanvas * canvas, int ntrig, int nass,TObjArray* trignames,
     TPaveText* Asslable = new TPaveText(xmin,ymin,xmax,ymax);
     Asslable->SetOption("nb");
     TString string = dynamic_cast<TObjString*>( assnames->At(ny-1))->GetString();
+    Asslable->SetTextFont(63);
+    Asslable->SetTextSize(textsize-6);
     Asslable->AddText(string.Data());
-//     Asslable->AddText(dynamic_cast<TObjString*>(string.Tokenize("NL")->At(1))->GetString().Data());
-//     Asslable->AddText(dynamic_cast<TObjString*>(string.Tokenize("NL")->At(2))->GetString().Data());
     Asslable->Draw();
   }
   
@@ -4298,15 +4307,15 @@ TVirtualPad * cdppcanvas(TCanvas * canvas, int i){
 void PresentPbPb(TFile*infile,TDirectory*outpath,const char* type){
   //categorys that will be plotted:
   TObjArray * trigarray = new TObjArray();
-  trigarray->Add(new TObjString("4 GeV/c <= p_{T}^{trigger}<=8 GeV/c"));
-  trigarray->Add(new TObjString("8 GeV/c <= p_{T}^{trigger}<=16 GeV/c"));
+  trigarray->Add(new TObjString("4.0-8.0 GeV/c"));
+  trigarray->Add(new TObjString("8.0-16.0 GeV/c"));
   TObjArray * assarray  = new TObjArray();
-  assarray->Add(new TObjString("0.5-1.0 GeV/c"));
-  assarray->Add(new TObjString("1.0-2.0 GeV/c"));
-  assarray->Add(new TObjString("2.0-3.0 GeV/c"));
-  assarray->Add(new TObjString("3.0-4.0 GeV/c"));
-  assarray->Add(new TObjString("4.0-6.0 GeV/c"));
-  assarray->Add(new TObjString("6.0-8.0 GeV/c"));
+  assarray->Add(new TObjString(" 0.5-1.0 GeV/c"));
+  assarray->Add(new TObjString(" 1.0-2.0 GeV/c"));
+  assarray->Add(new TObjString(" 2.0-3.0 GeV/c"));
+  assarray->Add(new TObjString(" 3.0-4.0 GeV/c"));
+  assarray->Add(new TObjString(" 4.0-6.0 GeV/c"));
+  assarray->Add(new TObjString(" 6.0-8.0 GeV/c"));
   assarray->Add(new TObjString("8.0-16.0 GeV/c"));
 
   
@@ -4475,6 +4484,8 @@ void drawinpad(TDirectory * dir, TString centpath,TString histname,TObjArray* pa
 void writeinpad(TObjArray*padarray,int index, const char* text){
   dynamic_cast<TPad*>(padarray->At(index))->cd();
   TPaveText * textp = new TPaveText(0.1,0.1,0.9,0.9,"NB");
+  textp->SetTextFont(63);
+  textp->SetTextSize(15);
   textp->AddText(text);
   textp->Draw();
 }
@@ -4565,7 +4576,7 @@ void drawptbins(TObjArray* indirs, TDirectory* outdir, const TString histname,TS
   if(type.CompareTo("META")==0){path.Append("META/BinM#/divided/");typetitle.Append("Acceptance corrected META");}
   if(type.CompareTo("META2")==0){path.Append("META2/BinM#/divided/");typetitle.Append("Acceptance corrected META2");}
   if(type.CompareTo("METrigger")==0){path.Append("METrigger/BinM#/divided/");typetitle.Append("Acceptance corrected METrigger");}
-  TString histtitle = TString("");
+  TString histtitle = TString("");http://www.sge4ever.de/cartoon-mit-andi-mike-folge-13/
   TString histobjname = TString("");
   TString drawop      = TString("");
   if(histname.CompareTo("DPHIDPHI")==0){
@@ -4655,7 +4666,9 @@ void drawptbins(TObjArray* indirs, TDirectory* outdir, const TString histname,TS
 	singlename.Clear();
       }
       if(indexonpad == 0){
-	writeinpad(arrayofpads,4,Form("x-axis: %s",dynamic_cast<TH1*>(dir->GetDirectory(path.Data())->Get(histobjname.Data()))->GetXaxis()->GetTitle()));
+	TString xname = TString(dynamic_cast<TH1*>(dir->GetDirectory(path.Data())->Get(histobjname.Data()))->GetXaxis()->GetTitle());
+	xname.ReplaceAll("[]","");
+	writeinpad(arrayofpads,4,Form("x-axis: %s",xname.Data()));
 	writeinpad(arrayofpads,5,Form("y-axis: %s",dynamic_cast<TH1*>(dir->GetDirectory(path.Data())->Get(histobjname.Data()))->GetYaxis()->GetTitle()));
 	if(histobjname.Contains("DPhi_1"))writeinpad(arrayofpads,1,Form("z-axis: %s",dynamic_cast<TH1*>(dir->GetDirectory(path.Data())->Get(histobjname.Data()))->GetZaxis()->GetTitle()));
       }
@@ -4820,15 +4833,15 @@ void drawcentcom(TObjArray* indirs, TDirectory* outdir, TString histname, TStrin
 void ComparePt(bool isPbPb,TObjArray* indirs, TDirectory * outdir, TString histname){
   //categorys that will be plotted:
   TObjArray * trigarray = new TObjArray();
-  trigarray->Add(new TObjString("4 GeV/c <= p_{T}^{trigger}<=8 GeV/c"));
-  trigarray->Add(new TObjString("8 GeV/c <= p_{T}^{trigger}<=16 GeV/c"));
-  trigarray->Add(new TObjString("16 GeV/c <= p_{T}^{trigger}<=50 GeV/c"));
+  trigarray->Add(new TObjString(" 4.0- 8.0 GeV/c"));
+  trigarray->Add(new TObjString(" 8.0-16.0 GeV/c"));
+  trigarray->Add(new TObjString("16.0-50.0 GeV/c"));
   TObjArray * assarray  = new TObjArray();
-  assarray->Add(new TObjString("2.0-3.0 GeV/c"));
-  assarray->Add(new TObjString("3.0-4.0 GeV/c"));
-  assarray->Add(new TObjString("4.0-6.0 GeV/c"));
-  assarray->Add(new TObjString("6.0-8.0 GeV/c"));
-  assarray->Add(new TObjString("8.0-16.0 GeV/c"));
+  assarray->Add(new TObjString(" 2.0- 3.0 GeV/c"));
+  assarray->Add(new TObjString(" 3.0- 4.0 GeV/c"));
+  assarray->Add(new TObjString(" 4.0- 6.0 GeV/c"));
+  assarray->Add(new TObjString(" 6.0- 8.0 GeV/c"));
+  assarray->Add(new TObjString(" 8.0-16.0 GeV/c"));
   assarray->Add(new TObjString("16.0-50.0 GeV/c"));
   
   
@@ -5379,15 +5392,15 @@ void yieldcanvases(TObjArray * indirs, TDirectory* outdir,const char* histname,T
   //Compare different centralities to pp in one plot:
   //categorys that will be plotted:
   TObjArray * trigarray = new TObjArray();
-  trigarray->Add(new TObjString("4 GeV/c <= p_{T}^{trigger}<=8 GeV/c"));
-  trigarray->Add(new TObjString("8 GeV/c <= p_{T}^{trigger}<=16 GeV/c"));
-  trigarray->Add(new TObjString("16 GeV/c <= p_{T}^{trigger}<=50 GeV/c"));
+  trigarray->Add(new TObjString(" 4.0- 8.0 GeV/c"));
+  trigarray->Add(new TObjString(" 8.0-16.0 GeV/c"));
+  trigarray->Add(new TObjString("16.0-50.0 GeV/c"));
   TObjArray * assarray  = new TObjArray();
-  assarray->Add(new TObjString("2.0-3.0 GeV/c"));
-  assarray->Add(new TObjString("3.0-4.0 GeV/c"));
-  assarray->Add(new TObjString("4.0-6.0 GeV/c"));
-  assarray->Add(new TObjString("6.0-8.0 GeV/c"));
-  assarray->Add(new TObjString("8.0-16.0 GeV/c"));
+  assarray->Add(new TObjString(" 2.0- 3.0 GeV/c"));
+  assarray->Add(new TObjString(" 3.0- 4.0 GeV/c"));
+  assarray->Add(new TObjString(" 4.0- 6.0 GeV/c"));
+  assarray->Add(new TObjString(" 6.0- 8.0 GeV/c"));
+  assarray->Add(new TObjString(" 8.0-16.0 GeV/c"));
   assarray->Add(new TObjString("16.0-50.0 GeV/c"));
   TString extraname = TString("");
   if(prodpp.CompareTo("ppLHC11a")==0) extraname.Append("11a");
@@ -5419,22 +5432,22 @@ void yieldcanvases(TObjArray * indirs, TDirectory* outdir,const char* histname,T
   TObjArray* arrayofpads05; TObjArray* arrayofpads510 ;    
     
   if(is010){
-    arrayofpads05 = PadArray(canvas05,3,6,trigarray,assarray,Form("%s 0%%-10%% PbPb",titlehists.Data()));
+    arrayofpads05 = PadArray(canvas05,3,6,trigarray,assarray,"");//Form("%s 0%%-10%% PbPb",titlehists.Data()));
     arrayofpads510 = NULL;
     
   }
   else{
-    arrayofpads05  = PadArray(canvas05,3,6,trigarray,assarray,Form("%s 0%%-5%% PbPb",titlehists.Data()));
-    arrayofpads510 = PadArray(canvas510,3,6,trigarray,assarray,Form("%s 5%%-10%% PbPb",titlehists.Data()));
+    arrayofpads05  = PadArray(canvas05,3,6,trigarray,assarray,"");//Form("%s 0%%-5%% PbPb",titlehists.Data()));
+    arrayofpads510 = PadArray(canvas510,3,6,trigarray,assarray,"");//Form("%s 5%%-10%% PbPb",titlehists.Data()));
   }
   TCanvas * canvas1020 = new TCanvas();  
-  TObjArray* arrayofpads1020 = PadArray(canvas1020,3,6,trigarray,assarray,Form("%s  10%%-20%% PbPb",titlehists.Data()));
+  TObjArray* arrayofpads1020 = PadArray(canvas1020,3,6,trigarray,assarray,"");//Form("%s  10%%-20%% PbPb",titlehists.Data()));
   TCanvas * canvas2040 = new TCanvas();
-  TObjArray* arrayofpads2040 = PadArray(canvas2040,3,6,trigarray,assarray,Form("%s  20%%-40%% PbPb",titlehists.Data()));
+  TObjArray* arrayofpads2040 = PadArray(canvas2040,3,6,trigarray,assarray,"");//Form("%s  20%%-40%% PbPb",titlehists.Data()));
   TCanvas * canvas4060 = new TCanvas();
-  TObjArray* arrayofpads4060 = PadArray(canvas4060,3,6,trigarray,assarray,Form("%s  40%%-60%% PbPb",titlehists.Data()));
+  TObjArray* arrayofpads4060 = PadArray(canvas4060,3,6,trigarray,assarray,"");//Form("%s  40%%-60%% PbPb",titlehists.Data()));
   TCanvas * canvas6090 = new TCanvas();
-  TObjArray* arrayofpads6090 = PadArray(canvas6090,3,6,trigarray,assarray,Form("%s  60%%-90%% PbPb",titlehists.Data()));
+  TObjArray* arrayofpads6090 = PadArray(canvas6090,3,6,trigarray,assarray,"");//Form("%s  60%%-90%% PbPb",titlehists.Data()));
   
   TCanvas * canvas = new TCanvas();
   if((TString(histname).CompareTo("dphiyieldbc")==0)&&(prodpp.CompareTo("ppLHC10d")==0)) outdir->mkdir("yields_pp_PbPb")->cd();
@@ -5515,38 +5528,31 @@ void yieldcanvases(TObjArray * indirs, TDirectory* outdir,const char* histname,T
 	  if(binedge == 16) padarrayindex +=5;
 
 	  if(padarrayindex==0){
-	    TPaveText * axislablesx = new TPaveText(0.1,0.1,0.9,0.9,"NB");
-	    TPaveText * axislablesy = new TPaveText(0.1,0.1,0.9,0.9,"NB");
-	    axislablesx->AddText(Form("x-axis : %s",yieldhistpp->GetXaxis()->GetTitle()));
-	    axislablesy->AddText(Form("y-axis : %s",yieldhistpp->GetYaxis()->GetTitle()));
+	    TString xname = TString(Form("x-axis : %s",yieldhistpp->GetXaxis()->GetTitle()));
+	    TString yname = TString(Form("y-axis : %s",yieldhistpp->GetYaxis()->GetTitle()));
+	    xname.ReplaceAll("[]","");	    
 	    if(is010){
 	      dynamic_cast<TPad*>(arrayofpads05->At(4))->cd();
 	      leg1->AddEntry(yieldhistpp,"pp");
 	      leg1->AddEntry(yieldhist05,Form("0%%-10%% PbPb"));
 	      leg1->Draw("same");	  
-	      dynamic_cast<TPad*>(arrayofpads05->At(5))->cd();
-	      axislablesx->Draw("");
-	      dynamic_cast<TPad*>(arrayofpads05->At(11))->cd();
-	      axislablesy->Draw("");
+	      writeinpad(arrayofpads05,5,xname.Data());
+	      writeinpad(arrayofpads05,11,yname.Data());
 	    }
 	    else{
 	      dynamic_cast<TPad*>(arrayofpads05->At(4))->cd();
 	      leg1->AddEntry(yieldhistpp,"pp");
 	      leg1->AddEntry(yieldhist05,Form("0%%-5%% PbPb"));
 	      leg1->Draw("same");
-	      dynamic_cast<TPad*>(arrayofpads05->At(5))->cd();
-	      axislablesx->Draw("");
-	      dynamic_cast<TPad*>(arrayofpads05->At(11))->cd();
-	      axislablesy->Draw("");
+	      writeinpad(arrayofpads05,5,xname.Data());
+	      writeinpad(arrayofpads05,11,yname.Data());
 	   
 	      dynamic_cast<TPad*>(arrayofpads510->At(4))->cd();
 	      leg2->AddEntry(yieldhistpp,"pp");
 	      leg2->AddEntry(yieldhist510,Form("5%%-10%% PbPb"));
 	      leg2->Draw("same");	    
-	      dynamic_cast<TPad*>(arrayofpads510->At(5))->cd();
-	      axislablesx->Draw("");
-	      dynamic_cast<TPad*>(arrayofpads510->At(11))->cd();
-	      axislablesy->Draw("");
+	      writeinpad(arrayofpads510,5,xname.Data());
+	      writeinpad(arrayofpads510,11,yname.Data());
 	      
 	    }
 	    dynamic_cast<TPad*>(arrayofpads1020->At(4))->cd();
@@ -5554,31 +5560,24 @@ void yieldcanvases(TObjArray * indirs, TDirectory* outdir,const char* histname,T
 	    leg3->AddEntry(yieldhistpp,"pp");
 	    leg3->AddEntry(yieldhist1020,Form("10%%-20%% PbPb"));
 	    leg3->Draw("same");	  
-	    dynamic_cast<TPad*>(arrayofpads1020->At(5))->cd();
-	    axislablesx->Draw("");
-	    dynamic_cast<TPad*>(arrayofpads1020->At(11))->cd();
-	    axislablesy->Draw("");
+	    writeinpad(arrayofpads1020,5,xname.Data());
+	    writeinpad(arrayofpads1020,11,yname.Data());
 	    
 	    dynamic_cast<TPad*>(arrayofpads2040->At(4))->cd();
 	    leg4->Clear();  
 	    leg4->AddEntry(yieldhistpp,"pp");
 	    leg4->AddEntry(yieldhist2040,Form("20%%-40%% PbPb"));
 	    leg4->Draw("same");
-	    dynamic_cast<TPad*>(arrayofpads2040->At(5))->cd();
-	    axislablesx->Draw("");
-	    dynamic_cast<TPad*>(arrayofpads2040->At(11))->cd();
-	    axislablesy->Draw("");
+	    writeinpad(arrayofpads2040,5,xname.Data());
+	    writeinpad(arrayofpads2040,11,yname.Data());
 	    
 	    dynamic_cast<TPad*>(arrayofpads4060->At(4))->cd();
 	    leg5->Clear();  
 	    leg5->AddEntry(yieldhistpp,"pp");
 	    leg5->AddEntry(yieldhist4060,Form("40%%-60%% PbPb"));
 	    leg5->Draw("same");	  
-	    dynamic_cast<TPad*>(arrayofpads4060->At(5))->cd();
-	    axislablesx->Draw("");
-	    dynamic_cast<TPad*>(arrayofpads4060->At(11))->cd();
-	    axislablesy->Draw("");
-	    
+	    writeinpad(arrayofpads4060,5,xname.Data());
+	    writeinpad(arrayofpads4060,11,yname.Data());	    
 	    
 	  }
 	  double max = -1000;
@@ -5744,17 +5743,16 @@ void yieldcanvases(TObjArray * indirs, TDirectory* outdir,const char* histname,T
 	  if(padarrayindex==0){
 	    TPaveText * axislablesx = new TPaveText(0.1,0.1,0.9,0.9,"NB");
 	    TPaveText * axislablesy = new TPaveText(0.1,0.1,0.9,0.9,"NB");
-	    axislablesx->AddText(Form("x-axis : %s",yieldhistpp->GetXaxis()->GetTitle()));
-	    axislablesy->AddText(Form("y-axis : %s",yieldhistpp->GetYaxis()->GetTitle()));	    
+	    TString xname = TString(Form("x-axis : %s",yieldhistpp->GetXaxis()->GetTitle()));
+	    TString yname = TString(Form("y-axis : %s",yieldhistpp->GetYaxis()->GetTitle()));
+	    xname.ReplaceAll("[]","");
 	    dynamic_cast<TPad*>(arrayofpads6090->At(4))->cd();
 	    leg6->Clear();  
 	    leg6->AddEntry(yieldhistpp,"pp");
 	    leg6->AddEntry(yieldhist6090,Form("60%%-90%% PbPb"));
 	    leg6->Draw("same");	 
-	    dynamic_cast<TPad*>(arrayofpads6090->At(5))->cd();	    
-	    axislablesx->Draw("");
-	    dynamic_cast<TPad*>(arrayofpads6090->At(11))->cd();	    
-	    axislablesy->Draw("");
+	    writeinpad(arrayofpads6090,5,xname.Data());
+	    writeinpad(arrayofpads6090,11,yname.Data());
 	    
 	  }
 	  double max = -1000;
@@ -5985,7 +5983,7 @@ void CompareYields(TObjArray* indirs, TDirectory * outdir , TString options){
   hist->GetXaxis()->SetBinLabel(4,"6.0-8.0");
   hist->GetXaxis()->SetBinLabel(5,"8.0-16.0");
   hist->GetXaxis()->SetBinLabel(6,"16.0-50.0");
-  hist->GetXaxis()->SetTitle("Pt_{associated} [GeV/c]");
+  hist->GetXaxis()->SetTitle("P_{T}^{associated} [GeV/c]");
   
   if(!noPbPb){
     yieldcanvases(indirs,outdir,"dphiyieldbc","ppLHC10d");
@@ -6351,6 +6349,13 @@ void DrawHists(TH1* histppo , TH1* hist010o, TH1* hist1020o, TH1* hist2040o, TH1
   TH1D * range = dynamic_cast<TH1D*>(histpp->Clone("range"));
   range->Reset();
   range->SetStats(kFALSE);
+  TString title = TString("Preliminary ");
+  if(TString(range->GetTitle()).Contains("Away"))title.Append("away-side per-trigger yields for p_{T}^{trigger} = ");
+  if(TString(range->GetTitle()).Contains("Near"))title.Append("near-side per-trigger yields for p_{T}^{trigger} = ");
+  if(TString(range->GetTitle()).Contains("4GeV/c<="))title.Append("4-8 GeV/c");
+  if(TString(range->GetTitle()).Contains("8GeV/c<="))title.Append("8-16 GeV/c");
+  if(TString(range->GetTitle()).Contains("16GeV/c<="))title.Append("16-50 GeV/c");
+  range->SetTitle(title.Data());
   histpp->SetLineColor(kBlack);
   histpp->SetLineWidth(2);
   histpp->SetMarkerStyle(20);

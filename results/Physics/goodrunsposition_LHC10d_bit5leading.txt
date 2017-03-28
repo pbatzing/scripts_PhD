@@ -1,0 +1,15 @@
+1 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t816/a23/CollectedResults.root
+2 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t816/a34/CollectedResults.root
+3 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t816/a46/CollectedResults.root
+4 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t816/a68/CollectedResults.root
+5 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t816/a816/CollectedResults.root
+6 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t48/a23/CollectedResults.root
+7 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t48/a34/CollectedResults.root
+8 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t48/a46/CollectedResults.root
+9 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t48/a68/CollectedResults.root
+10 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a23/CollectedResults.root
+11 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a34/CollectedResults.root
+12 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a46/CollectedResults.root
+13 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a68/CollectedResults.root
+14 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a816/CollectedResults.root
+15 /home/paulbatzing/alice/paul/ThreeParticle/correlation3p/LHC10d/TreeRunning/bit5leading/t16/a16/CollectedResults.root

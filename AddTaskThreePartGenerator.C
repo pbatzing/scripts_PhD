@@ -1,0 +1,1 @@
+/home/paulbatzing/alice/code/AliPhysics/PWGCF/Correlations/ThreePart/macros/AddTaskThreePartGenerator.C

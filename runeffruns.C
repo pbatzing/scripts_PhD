@@ -11,25 +11,31 @@ void runeffruns(const char* options = "", const char* o2 = "")
 {
   
   Double_t MaxlowpT = 2.0;
-  Double_t Cutoffpoint = 5.0;
+  Double_t Cutoffpoint = 1000.0;
   TString basedir=TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/");
+  TString MCdir = TString("/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/");
   //   MakeTestHists();
+  if(TString(options).Contains("bit=BIT4"))MCdir.Append("bit4/");
+  if(TString(options).Contains("bit=BIT5 "))MCdir.Append("bit5/");
+  if(TString(options).Contains("bit=BIT6"))MCdir.Append("bit6/");
+  if(TString(options).Contains("bit=BIT56"))MCdir.Append("bit56/");
+  
   if(TString(options).Contains("effruns ")||TString(options).Contains("effrun=")||TString(options).Contains("effrunsg")||TString(options).Contains("effrunsh")||TString(options).Contains("effrunsi")){
     gROOT->LoadMacro(Form("%seffmaker.cxx+g",basedir.Data()));
     TObjArray * dir = new TObjArray();
     dir->SetOwner(kTRUE);
     if((TString(options).Contains("effruns ")||TString(options).Contains("effrun=")||TString(options).Contains("effrunsg"))&&TString(options).Contains("LHC11h")){
-      dir->Add(new TSystemDirectory("LHC12a17g","/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC12a17g"));
+      dir->Add(new TSystemDirectory("LHC12a17g",Form("%sLHC12a17g",MCdir.Data())));
     }
     if((TString(options).Contains("effruns ")||TString(options).Contains("effrun=")||TString(options).Contains("effrunsh"))&&TString(options).Contains("LHC11h")){
-      dir->Add(new TSystemDirectory("LHC12a17h","/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC12a17h"));
+      dir->Add(new TSystemDirectory("LHC12a17h",Form("%sLHC12a17h",MCdir.Data())));
     }
     if((TString(options).Contains("effruns ")||TString(options).Contains("effrun=")||TString(options).Contains("effrunsi"))&&TString(options).Contains("LHC11h")){
-      dir->Add(new TSystemDirectory("LHC12a17i","/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC12a17i"));
+      dir->Add(new TSystemDirectory("LHC12a17i",Form("%sLHC12a17i",MCdir.Data())));
     }
-    if(TString(options).Contains("LHC10h")){
-      dir->Add(new TSystemDirectory("LHC11a10a","/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC11a10a"));      
-    }
+//     if(TString(options).Contains("LHC10h")){
+//       dir->Add(new TSystemDirectory("LHC11a10a","/home/paulbatzing/alice/paul/ThreeParticle/correlation3p/MCproductions/LHC11a10a"));      
+//     }
     TSystemDirectory * sysdir;
     TString * filename;
     TString * nowfilename;
@@ -37,8 +43,7 @@ void runeffruns(const char* options = "", const char* o2 = "")
 
       sysdir = dynamic_cast<TSystemDirectory*>(dir->At(i));
       TList * directs = sysdir->GetListOfFiles();
-      filename = new TString(basedir.Data());
-      filename->Append("MCproductions/");
+      filename = new TString(MCdir.Data());
       filename->Append(dir->At(i)->GetName());
       filename->Append("/");
       for(int j =0; j<directs->GetEntries();j++){
@@ -75,11 +80,11 @@ void runeffruns(const char* options = "", const char* o2 = "")
   }
   if(TString(options).Contains("CollectCentBins")){
     gROOT->LoadMacro(Form("%seffruns.cxx+g",basedir.Data()));
-    CollectCentBins(o2);
+    CollectCentBins(o2,MCdir);
   }
   if(TString(options).Contains("CollectRuns")){
     gROOT->LoadMacro(Form("%seffruns.cxx+g",basedir.Data()));    
-    CollectRuns(MaxlowpT,Cutoffpoint);
+    CollectRuns(MCdir+TString("LHC12a17ghi/"),MaxlowpT,Cutoffpoint);
   }
   if(TString(options).Contains("RunStatsPlus")){
     gROOT->LoadMacro(Form("%seffruns.cxx+g",basedir.Data()));    

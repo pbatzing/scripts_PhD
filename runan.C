@@ -47,18 +47,17 @@ void runan(const char* mode="", const char* run="", Double_t TriggerpTmin = 4.0,
   if(directory.BeginsWith("LHC14j4d")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode, runmc.Data(),  Form("%sMCproductions/LHC14j4d/AddTaskThreePartBuildTree_14j4d.C",basedir.Data()), Form("p%s",run), "000 --mcData", directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC14j4d/AddTaskThreePartBuildTree_14j4d.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0)runTask(mode, "dstTree.root", Form("%sMCproductions/LHC14j4d/AddTaskThreePartTrackEfficiencies_14j4d.C",basedir.Data()), Form("test%s",run));
+    if(TString("local").CompareTo(mode)==0)runTask(mode, "dstTree.root", Form("AddTaskThreePartTrackEfficiencies_14j4d.C"), Form("test%s",run));
   }    
   if(directory.BeginsWith("LHC11a10abis")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode,runmc.Data(),Form("%sMCproductions/LHC11a10a/AddTaskThreePartBuildTreePbPb_11a10a.C",basedir.Data()),Form("p%s",run),"000 --mcData",directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC11a10a/AddTaskThreePartBuildTreePbPb_11a10a.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0){run_single_task(mode, "dstTree.root", Form("%sMCproductions/LHC11a10a/AddTaskThreePartTrackEfficienciesPbPb_11a10a.C",basedir.Data()));
-    }
+    if(TString("local").CompareTo(mode)==0)run_single_task(mode, "dstTree.root", Form("AddTaskThreePartTrackEfficienciesPbPb_11a10a.C"));
   }
   if(directory.BeginsWith("LHC10f6a")||directory.BeginsWith("LHC12f1a")||directory.BeginsWith("LHC12f1b")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode,runmc.Data(),Form("%sMCproductions/LHC12af1a/AddTaskThreePartBuildTree_12f1a.C",basedir.Data()),Form("p%s",run),"000 --mcData",directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC12af1a/AddTaskThreePartBuildTree_12f1a.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0)runTask(mode, "dstTree.root", Form("%sMCproductions/LHC12af1a/AddTaskThreePartTrackEfficienciespp_12f1ab.C",basedir.Data()), Form("test%s",run));
+    if(TString("local").CompareTo(mode)==0)runTask(mode, "dstTree.root", Form("AddTaskThreePartTrackEfficienciespp_12f1ab.C"), Form("test%s",run));
     
   }
   if(directory.BeginsWith("LHC12a17a")){
@@ -88,17 +87,17 @@ void runan(const char* mode="", const char* run="", Double_t TriggerpTmin = 4.0,
    if(directory.BeginsWith("LHC12a17g")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode,runmc.Data(),Form("%sMCproductions/LHC12a17g/AddTaskThreePartBuildTreePbPb_12a_17g.C",basedir.Data()),Form("p%s",run),"000 --mcData",directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC12a17g/AddTaskThreePartBuildTreePbPb_12a_17g.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("%sMCproductions/LHC12a17g/AddTaskThreePartTrackEfficienciesPbPb_12a_17g.C",basedir.Data()));
+    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("AddTaskThreePartTrackEfficienciesPbPb_12a_17g.C"));
      
   }  
   if(directory.BeginsWith("LHC12a17h")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode,runmc.Data(),Form("%sMCproductions/LHC12a17h/AddTaskThreePartBuildTreePbPb_12a_17h.C",basedir.Data()),Form("p%s",run),"000 --mcData",directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC12a17h/AddTaskThreePartBuildTreePbPb_12a_17h.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("%sMCproductions/LHC12a17h/AddTaskThreePartTrackEfficienciesPbPb_12a_17h.C",basedir.Data()));
+    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("AddTaskThreePartTrackEfficienciesPbPb_12a_17h.C"));
   }     
   if(directory.BeginsWith("LHC12a17i")){
     if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)run_single_task(mode,runmc.Data(),Form("%sMCproductions/LHC12a17i/AddTaskThreePartBuildTreePbPb_12a_17i.C",basedir.Data()),Form("p%s",run),"000 --mcData",directory.Data());
     if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)run_single_task(mode, directory.Data(), Form("%sMCproductions/LHC12a17i/AddTaskThreePartBuildTreePbPb_12a_17i.C",basedir.Data()), Form("p%s",run), "000");
-    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("%sMCproductions/LHC12a17i/AddTaskThreePartTrackEfficienciesPbPb_12a_17i.C",basedir.Data()));
+    if(TString("local").CompareTo(mode)==0)run_single_task(mode,"dstTree.root",Form("AddTaskThreePartTrackEfficienciesPbPb_12a_17i.C"));
   }  
 }

@@ -11,6 +11,8 @@ void runThreePartDC(const char* mode = "Compare" ,const char* options = ""){
   gROOT->LoadMacro(Form("%sThreeParticleCorrectionFunctions.cxx+g",workingdir.Data()));
   gROOT->LoadMacro(Form("%sThreePartDC.cxx+g",workingdir.Data()));
   gPrintViaErrorHandler = kTRUE;  //makes minuit quiet
+  gStyle->SetTitleX(0.5);
+  gStyle->SetTitleAlign(23);
   TGaxis::SetMaxDigits(4);
   TString TSmode = TString(mode);
   if(TSmode.CompareTo("Draw")==0){Draw(options);}
