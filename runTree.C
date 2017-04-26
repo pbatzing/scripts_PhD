@@ -65,7 +65,12 @@ void runTree(const char* mode="", const char* dataset="", const char* directory 
       const char* taskname = Form("%sp%s_%i",dataset,directory,i+1);
       const char* griddir = Form("%s/p%s/%i",dataset,Directory.Data(),i+1);
 //       if local, do nothing, execute:
-      if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)runTask(mode,"000000001",addtaskmacro, taskname, "000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir);
+      if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0){
+	if(TString(directory).Contains("t48a23")){
+	  runTask(mode,"000000001",addtaskmacro,taskname,"000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir,86400);
+	}
+	else runTask(mode,"000000001",addtaskmacro, taskname, "000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir);
+      }
       if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)runTask(mode,griddir,addtaskmacro,taskname,"000");
     }
     gSystem->ChangeDirectory(runningbasedir.Data());
@@ -140,7 +145,22 @@ void runTree(const char* mode="", const char* dataset="", const char* directory 
       const char* taskname = Form("%sp%s_%i",dataset,directory,i+1);
       const char* griddir = Form("%s/p%s/%i",dataset,Directory.Data(),i+1);
 //       if local, do nothing, execute:
-      if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0)runTask(mode,"000000001",addtaskmacro, taskname, "000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir);
+      if(TString("test").CompareTo(mode)==0||TString("full").CompareTo(mode)==0){
+	bool run = false;
+	if(TString(directory).Contains("t48a23")){
+	  runTask(mode,"000000001",addtaskmacro,taskname,"000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir,86400);
+	  run = true;
+	}
+	if(TString(directory).Contains("t48a34")){
+	  runTask(mode,"000000001",addtaskmacro,taskname,"000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir,86400);
+	  run = true;
+	 }
+	if(TString(directory).Contains("t816a23")){
+	  runTask(mode,"000000001",addtaskmacro,taskname,"000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir,86400);
+	  run = true;
+	}	
+ 	if(!run) runTask(mode,"000000001",addtaskmacro, taskname, "000 --maxInputFiles=1",nevensperjob,firsteventnr,griddir);
+      }
       if(TString("merge").CompareTo(mode)==0||TString("collect").CompareTo(mode)==0)runTask(mode,griddir,addtaskmacro,taskname,"000");
     }
     gSystem->ChangeDirectory(runningbasedir.Data());

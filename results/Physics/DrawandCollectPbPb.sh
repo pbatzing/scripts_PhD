@@ -5,7 +5,7 @@ eval "`alienv shell-helper`"
 alienv load AliPhysics/latest-code-release
 clear
 
-for type in alltriggers leading bit4leading #bit5leading bit6leading bit56leading
+for type in alltriggers leading bit4leading bit5leading bit6leading bit56leading
 do
   echo "Drawing and collecting all periods using type "$type"."
 for periods in LHC10h LHC11h   

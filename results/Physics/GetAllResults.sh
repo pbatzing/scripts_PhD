@@ -4,7 +4,7 @@ echo $ALICE_WORK_DIR
 eval "`alienv shell-helper`"
 alienv load AliPhysics/latest-code-release
 clear
-for type in alltriggers alltriggers_vertexcut leading #bit4leading bit4leading_vertexcut bit5leading bit5leading_vertexcut bit6leading bit6leading_vertexcut bit56leading bit56leading_vertexcut
+for type in alltriggers alltriggers_vertexcut leading leading_vertexcut bit4leading bit4leading_vertexcut bit5leading bit5leading_vertexcut bit6leading bit6leading_vertexcut bit56leading bit56leading_vertexcut
 do
   echo "starting on production of type "$type"."
   if cd $type  

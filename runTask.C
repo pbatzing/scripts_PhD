@@ -30,7 +30,8 @@ void runTask(	     const char* mode,
 		     const char* arguments="",
 		     int nevents=-1,
 		     int firstevent =-1,
-		     const char* odirin=""
+		     const char* odirin="",
+		     int nowTTL = 64000
 		     )
 {
   const char* gridDataDir=NULL;
@@ -404,7 +405,7 @@ void runTask(	     const char* mode,
   
     // Optionally resubmit threshold.
     alienHandler->SetMasterResubmitThreshold(90); // in %
-    alienHandler->SetTTL(86400);// in sec
+    alienHandler->SetTTL(nowTTL);// in sec
   
     // Optionally set input format (default xml-single)
     alienHandler->SetInputFormat("xml-single");
